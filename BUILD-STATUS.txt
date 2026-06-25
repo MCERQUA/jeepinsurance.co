@@ -1,0 +1,55 @@
+jeepinsurance.co — BUILD STATUS
+======================================
+Niche: Insurance for commercial JEEP / off-road TOUR & RENTAL operators, Jeep
+       outfitters, and off-road club/event organizers (guided Jeep tours, Jeep & 4x4
+       rental fleets, trail-ride event companies). Commercial — not personal Jeep.
+
+Build: GREEN — `next build` exit code 0 (Next.js 15.5.x)
+  .next/BUILD_ID present = true (IOU1s1O2jMXCg7UJj_Brv)
+  Built atomically under the shared flock: flock -w 3600 /tmp/.webtop-build.lock
+  bash -c "pnpm install ...; next build". NOTE: the first attempt used `&&` between
+  install and build and failed (BUILD_EXIT 1, no BUILD_ID) because `pnpm install`
+  returns exit 1 on the ERR_PNPM_IGNORED_BUILDS (sharp) advisory, short-circuiting
+  the chain before next build. Re-ran under the flock with `;` (install advisory
+  tolerated — deps installed fine, only sharp's optional post-install was skipped),
+  which produced a clean green build with BUILD_ID.
+Routes: 24 prerendered pages
+  - Static: /, /about, /blog, /contact, /privacy, /quote, /services, /terms,
+    /robots.txt, /sitemap.xml, /_not-found
+  - Services (7, SSG): general-liability-insurance, participant-accident-insurance,
+    rental-fleet-physical-damage-insurance, abuse-molestation-liability-insurance,
+    commercial-auto-insurance, special-event-liability-insurance,
+    workers-compensation-insurance
+  - Blog (4, SSG): jeep-tour-rental-insurance-guide,
+    participant-accident-waivers-jeep-tours, protecting-your-jeep-rental-fleet,
+    special-event-liability-offroad-clubs
+
+Images: 9 real FLUX images in public/images/, all > 10KB
+  hero-jeep-trail (257K), jeep-tour-group (229K), rental-fleet (287K),
+  rock-crawling (334K), desert-canyon-ride (236K), trail-guide (252K),
+  about-agent (140K), blog-default (254K), og-image (212K)
+
+Forms: 2 Netlify Forms — contact (name="contact") and quote (name="quote").
+  Each has data-netlify="true", data-netlify-honeypot="bot-field",
+  hidden form-name input, and the bot-field honeypot. Both submit via
+  fetch("/") with URLSearchParams (Netlify pattern) — the quote page's original
+  direct webhook fetch (site=framinginsurance.com) was REMOVED (no WEBHOOK_URL).
+  netlify.toml notifications route both forms to the josh tenant webhook with
+  site=jeepinsurance.co.
+
+SEO: sitemap.ts, robots.ts, and public/llms.txt all updated to
+  https://jeepinsurance.co with off-road tour/rental keywords.
+
+Contact (canonical): Phone 844-967-5247 (tel:+18449675247),
+  Email josh@contractorschoiceagency.com, HQ 12220 E Riggs Rd, Chandler, AZ 85249.
+
+Testimonials: REMOVED — TESTIMONIALS array deleted from site.ts, Testimonials
+  section removed from homepage, Testimonials.tsx component deleted.
+
+Build config: inherited proven setup left intact — netlify.toml command
+  "pnpm run build", NODE_VERSION 20, pnpm-lock.yaml only, NO packageManager field,
+  no package-lock.json.
+
+Framing scrub: `grep -rin 'fram' src/ public/ netlify.toml package.json` returns
+  ZERO matches except the JS API requestAnimationFrame (SmoothScroll.tsx). Clean,
+  including the quote page. No framinginsurance.com anywhere in source/config.

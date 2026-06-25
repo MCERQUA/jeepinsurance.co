@@ -1,0 +1,7 @@
+verifyDepsBeforeRun: false
+onlyBuiltDependencies:
+  - sharp
+packages:
+  - "."
+allowBuilds:
+  sharp: set this to true or false
