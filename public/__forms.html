@@ -16,7 +16,9 @@
   <input name="coverageNeeded" />
   <input name="state" />
   <textarea name="message"></textarea>
-</form>
+    <!-- added by josh-desk-2 2026-09-19: these are rendered on the live page but were not declared, so Netlify silently dropped them -->
+    <input name="operationType"><input name="fleetSize"><input name="staffSize">
+  </form>
 
 <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="contact" />
